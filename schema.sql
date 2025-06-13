@@ -1,28 +1,23 @@
-drop schema if exists test cascade;
+drop schema if exists app_public cascade;
 
-create schema test;
+create schema app_public;
 
-create type test.t as enum ('A','B');
+create type app_public.t as enum ('A');
 
-create table test.r (
+create table app_public.r (
     id integer primary key,
-    type test.t not null
+    type app_public.t not null
 );
 
-comment on table test.r is '
+comment on table app_public.r is '
     @interface mode:relational type:type
     @type A references:a
-    @type B references:b
 ';
 
-create table test.a (
-    id integer primary key references test.r
+create table app_public.a (
+    id integer primary key references app_public.r
 );
 
-create table test.b (
-    id integer primary key references test.r
-);
-
-create function test.x() returns test.r language sql as $$
-    SELECT * FROM test.r
+create function app_public.x() returns app_public.r language sql as $$
+    SELECT * FROM app_public.r
 $$;
